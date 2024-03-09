@@ -25,7 +25,7 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
-app.get('/', async (req, res) => {
+app.get('/salesautomators-test-task/', async (req, res) => {
   if (req.session.accessToken !== null && req.session.accessToken !== undefined) {
     res.redirect('/iframe/main.html');
   } else {
@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/callback', (req, res) => {
+app.get('/salesautomators-test-task/callback', (req, res) => {
   const authCode = req.query.code;
   const promise = apiClient.authorize(authCode);
 
@@ -46,6 +46,6 @@ app.get('/callback', (req, res) => {
   });
 });
 
-app.get('/iframe/:resource', async (req, res) => {
+app.get('/salesautomators-test-task/iframe/:resource', async (req, res) => {
   res.sendFile(path.join(__dirname, `/iframe/${req.params.resource}`));
 });
