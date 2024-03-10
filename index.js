@@ -29,6 +29,7 @@ app.listen(PORT, () => {
 
 app.get('/', async (req, res) => {
   if (req.session.accessToken !== null && req.session.accessToken !== undefined && req.session.accessToken !== '') {
+    console.log(req.session.accessToken);
     res.redirect('/iframe/main.html');
   } else {
     const authUrl = apiClient.buildAuthorizationUrl();
