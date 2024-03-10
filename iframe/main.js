@@ -1,7 +1,12 @@
 import 'https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0/dist/index.umd.js';
 
 (async function() {
-  const sdk = await new AppExtensionsSDK().initialize();
+  const sdk = await new AppExtensionsSDK().initialize({
+    size: {
+      height: 700,
+      width: 700,
+    }, 
+  });
   const form = document.getElementById('jobForm');
 
   for (const name of Object.keys(localStorage)) {
