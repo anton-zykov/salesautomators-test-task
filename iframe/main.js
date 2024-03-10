@@ -36,6 +36,7 @@ const formFields = (data) => ({
     const formData = new FormData(form);
     const response = await fetch('./create', {
       method: "POST",
+      credentials: 'include',
       headers: {
         "Content-Type": "application/json",
       },
