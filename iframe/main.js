@@ -25,7 +25,11 @@ import 'https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0/dist/index.
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(Object.fromEntries(formData.entries())),
+      body: JSON.stringify({
+        title: `JOB #${Math.round(Math.random() * 1000)}`,
+        //'Product name': 'productee',
+        //...Object.fromEntries(formData.entries())
+      }),
     });
     localStorage.clear();
   };

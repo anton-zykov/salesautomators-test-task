@@ -43,6 +43,7 @@ app.get('/callback', (req, res) => {
   promise.then(() => {
     req.session.accessToken = apiClient.authentications.oauth2.accessToken;
     req.session.refreshToken = apiClient.authentications.oauth2.refreshToken;
+    console.log(apiClient.authentications.oath2);
     res.redirect('/');
   }, (exception) => {
     console.error(exception.message);
@@ -53,15 +54,14 @@ app.post('/iframe/create', async (req, res) => {
   apiClient.authentications.oauth2.accessToken = req.session.accessToken;
   apiClient.authentications.oauth2.refreshToken = req.session.refreshToken;
 
-  console.log(apiClient);
   let apiInstance = new pipedrive.DealsApi(apiClient);
   let opts = pipedrive.NewDeal.constructFromObject(req.body);
   apiInstance.addDeal(opts).then((data) => {
-    console.log('API called successfully. Returned data: ' + data);
-    res.status(200).end();
+    //console.log('API called successfully. Returned data: ' + data);
+    res.json(data);
   }, (error) => {
-    console.error(error);
-    res.status(400).end();
+    //console.error(error);
+    res.json(error);
   });
 });
 
