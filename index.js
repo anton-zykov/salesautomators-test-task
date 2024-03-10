@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 });
 
 app.get('/', async (req, res) => {
-  if (req.session.accessToken !== null && req.session.accessToken !== undefined && req.session.accessToken !== '') {
+  if (req.cookies['accessToken']) {
     res.redirect('/iframe/main.html');
   } else {
     const authUrl = apiClient.buildAuthorizationUrl();
@@ -39,42 +39,40 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.get('/callback', (req, res) => {
+app.get('/callback', async (req, res) => {
   const authCode = req.query.code;
-  const promise = apiClient.authorize(authCode);
+  try {
+    await apiClient.authorize(authCode);
 
-  promise.then(() => {
     res.cookie('accessToken', apiClient.authentications.oauth2.accessToken, {
       sameSite: 'None',
       secure: true
     });
+    
     res.cookie('refreshToken', apiClient.authentications.oauth2.refreshToken, {
       sameSite: 'None',
       secure: true
     });
 
     res.redirect('/');
-  }, (exception) => {
-    console.error(exception.message);
-  });
+  } catch (error) {
+    console.error(error.message);
+  };
 });
 
 app.post('/iframe/create', async (req, res) => {
   apiClient.authentications.oauth2.accessToken = req.cookies['accessToken'];
   apiClient.authentications.oauth2.refreshToken = req.cookies['refreshToken'];
 
-  console.log(apiClient.authentications.oauth2);
-  console.log(req);
-
   let apiInstance = new pipedrive.DealsApi(apiClient);
   let opts = pipedrive.NewDeal.constructFromObject(req.body);
-  apiInstance.addDeal(opts).then((data) => {
-    //console.log('Success', data);
+  try {
+    const data = await apiInstance.addDeal(opts);
     res.json(data);
-  }, (error) => {
+  } catch (error) {
     console.log(error);
     res.status(400).json(error);
-  });
+  };
 });
 
 app.get('/iframe/:resource', async (req, res) => {

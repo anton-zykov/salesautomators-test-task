@@ -14,6 +14,11 @@ const formFields = (data) => ({
   '0332cc03908272c69197e92954c6052497126f89': data.testSelect,
 });
 
+const successPage = (id) => (`
+  <h3>Deal successfully created!</h3>
+  <a href="https://managerial-drawbridge.pipedrive.com/deal/${id}">Open deal</a>
+`);
+
 (async function() {
   const sdk = await new AppExtensionsSDK().initialize({
     size: {
@@ -34,6 +39,7 @@ const formFields = (data) => ({
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form);
+
     const response = await fetch('./create', {
       method: "POST",
       credentials: 'include',
@@ -47,6 +53,7 @@ const formFields = (data) => ({
     });
 
     localStorage.clear();
+    document.body.innerHTML = successPage(response.data.id);
   };
 
   const handleSave = (event) => {
