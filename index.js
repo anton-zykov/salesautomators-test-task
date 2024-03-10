@@ -2,13 +2,8 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const cookieSession = require('cookie-session');
 
 app.use(cookieParser());
-app.use(cookieSession({
-  name: 'session',
-  keys: ['key1']
-}));
 app.use(express.json());
 
 const PORT = 1800;
@@ -27,6 +22,14 @@ app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://managerial-drawbridge.pipedrive.com/');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
 app.get('/', async (req, res) => {
   if (req.session.accessToken !== null && req.session.accessToken !== undefined && req.session.accessToken !== '') {
     res.redirect('/iframe/main.html');
@@ -41,8 +44,15 @@ app.get('/callback', (req, res) => {
   const promise = apiClient.authorize(authCode);
 
   promise.then(() => {
-    req.session.accessToken = apiClient.authentications.oauth2.accessToken;
-    req.session.refreshToken = apiClient.authentications.oauth2.refreshToken;
+    res.cookie('accessToken', apiClient.authentications.oauth2.accessToken, {
+      sameSite: 'None',
+      secure: true
+    });
+    res.cookie('refreshToken', apiClient.authentications.oauth2.refreshToken, {
+      sameSite: 'None',
+      secure: true
+    });
+
     res.redirect('/');
   }, (exception) => {
     console.error(exception.message);
@@ -50,8 +60,8 @@ app.get('/callback', (req, res) => {
 });
 
 app.post('/iframe/create', async (req, res) => {
-  apiClient.authentications.oauth2.accessToken = req.session.accessToken;
-  apiClient.authentications.oauth2.refreshToken = req.session.refreshToken;
+  apiClient.authentications.oauth2.accessToken = req.cookie['accessToken'];
+  apiClient.authentications.oauth2.refreshToken = req.cookie['refreshToken'];
 
   console.log(apiClient.authentications.oauth2);
   console.log(req.session);
