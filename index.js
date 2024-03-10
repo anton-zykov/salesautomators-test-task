@@ -60,11 +60,11 @@ app.get('/callback', (req, res) => {
 });
 
 app.post('/iframe/create', async (req, res) => {
-  apiClient.authentications.oauth2.accessToken = req.cookie['accessToken'];
-  apiClient.authentications.oauth2.refreshToken = req.cookie['refreshToken'];
+  apiClient.authentications.oauth2.accessToken = req.cookies['accessToken'];
+  apiClient.authentications.oauth2.refreshToken = req.cookies['refreshToken'];
 
   console.log(apiClient.authentications.oauth2);
-  console.log(req.session);
+  console.log(req);
 
   let apiInstance = new pipedrive.DealsApi(apiClient);
   let opts = pipedrive.NewDeal.constructFromObject(req.body);
