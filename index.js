@@ -29,7 +29,6 @@ app.listen(PORT, () => {
 
 app.get('/', async (req, res) => {
   if (req.session.accessToken !== null && req.session.accessToken !== undefined && req.session.accessToken !== '') {
-    console.log(req.session.accessToken);
     res.redirect('/iframe/main.html');
   } else {
     const authUrl = apiClient.buildAuthorizationUrl();
@@ -43,6 +42,7 @@ app.get('/callback', (req, res) => {
 
   promise.then(() => {
     req.session.accessToken = apiClient.authentications.oauth2.accessToken;
+    req.session.refreshToken = apiClient.authentications.oauth2.refreshToken;
     res.redirect('/');
   }, (exception) => {
     console.error(exception.message);
@@ -50,7 +50,19 @@ app.get('/callback', (req, res) => {
 });
 
 app.post('/iframe/create', async (req, res) => {
-  console.log(apiClient.authentications.oauth2.accessToken);
+  apiClient.authentications.oauth2.accessToken = req.session.accessToken;
+  apiClient.authentications.oauth2.refreshToken = req.session.refreshToken;
+
+  console.log(apiClient);
+  let apiInstance = new pipedrive.DealsApi(apiClient);
+  let opts = pipedrive.NewDeal.constructFromObject(req.body);
+  apiInstance.addDeal(opts).then((data) => {
+    console.log('API called successfully. Returned data: ' + data);
+    res.status(200).end();
+  }, (error) => {
+    console.error(error);
+    res.status(400).end();
+  });
 });
 
 app.get('/iframe/:resource', async (req, res) => {
