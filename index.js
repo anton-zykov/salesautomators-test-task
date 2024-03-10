@@ -53,10 +53,13 @@ app.post('/iframe/create', async (req, res) => {
   apiClient.authentications.oauth2.accessToken = req.session.accessToken;
   apiClient.authentications.oauth2.refreshToken = req.session.refreshToken;
 
+  console.log(apiClient.authentications.oauth2);
+  console.log(req.session);
+
   let apiInstance = new pipedrive.DealsApi(apiClient);
   let opts = pipedrive.NewDeal.constructFromObject(req.body);
   apiInstance.addDeal(opts).then((data) => {
-    console.log('Success', data);
+    //console.log('Success', data);
     res.json(data);
   }, (error) => {
     console.log(error);
