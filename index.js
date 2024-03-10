@@ -9,6 +9,8 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1']
 }));
+app.use(express.json());
+
 const PORT = 1800;
 
 const pipedrive = require('pipedrive');
@@ -44,6 +46,10 @@ app.get('/callback', (req, res) => {
   }, (exception) => {
     console.error(exception.message);
   });
+});
+
+app.post('/iframe/create', async (req, res) => {
+  console.log(apiClient.authentications.oauth2.accessToken);
 });
 
 app.get('/iframe/:resource', async (req, res) => {

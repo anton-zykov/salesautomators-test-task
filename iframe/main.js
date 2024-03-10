@@ -17,10 +17,16 @@ import 'https://cdn.jsdelivr.net/npm/@pipedrive/app-extensions-sdk@0/dist/index.
     form.querySelector('input[name="endTime"]').min = event.target.value;
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(form);
-    
+    const response = await fetch('./create', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(Object.fromEntries(formData.entries())),
+    });
     localStorage.clear();
   };
 
