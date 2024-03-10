@@ -56,8 +56,10 @@ app.post('/iframe/create', async (req, res) => {
   let apiInstance = new pipedrive.DealsApi(apiClient);
   let opts = pipedrive.NewDeal.constructFromObject(req.body);
   apiInstance.addDeal(opts).then((data) => {
+    console.log('Success', data);
     res.json(data);
   }, (error) => {
+    console.log(error);
     res.status(400).json(error);
   });
 });
