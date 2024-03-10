@@ -1,3 +1,82 @@
-h1 {
-  color: red;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --white: hsl(0, 0%, 100%);
+  --black: hsl(0, 0%, 0%);
+  --silver: hsla(0, 0%, 75%, 0.3);
+  --red: hsl(0, 100%, 50%);
+  --green: rgb(184, 255, 199);
+
+  --error: var(--red);
+  --success: var(--green);
+
+  font-family: 'Montserrat', sans-serif;
+}
+
+.form {
+  display: grid;
+  grid-template: repeat(2, minmax(0, 1fr)) / repeat(2, minmax(0, 1fr));
+  gap: 1em;
+}
+
+.form__part {
+  border: 1px solid var(--black);
+  border-radius: 0.5em;
+  padding: min(8%, 2em);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  row-gap: 0.8em;
+  column-gap: 0.3em;
+}
+
+.form__subtitle {
+  margin: 0;
+  grid-column: 1 / 3;
+}
+
+.form__input {
+  max-height: 3.5em;
+  padding: 0.8em;
+  border: 1px solid var(--silver);
+  border-radius: 0.5em;
+  font-family: inherit;
+}
+
+.form__input[name="endTime"]:invalid {
+  border-color: var(--error);
+}
+
+.form__input:focus {
+  outline-color: var(--black);
+}
+
+.form__input_full-size {
+  grid-column: 1 / 3;
+}
+
+.form__button {
+  padding: 1em;
+  border: 1px solid var(--black);
+  border-radius: 0.5em;
+  background-color: var(--white);
+  transition: background-color 0.2s linear;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.form__button:hover {
+  background-color: var(--silver);
+}
+
+.form__button_success, .form__button_success:hover {
+  background-color: var(--success);
+  cursor: default;
+}
+
+.form__button_submit {
+  justify-self: right;
+}
+
+.form__button_save {
+  justify-self: left;
 }

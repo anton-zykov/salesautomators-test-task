@@ -7,6 +7,53 @@
   <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-  <h1>Hello world</h1>
+  <form class="form" id="jobForm">
+    <div class="form__part">
+      <h3 class="form__subtitle">Client Details</h3>
+      <input type="text" name="firstName" placeholder="First name" class="form__input" required>
+      <input type="text" name="lastName" placeholder="Last name" class="form__input">
+      <input type="text" name="phone" placeholder="Phone" class="form__input form__input_full-size"> 
+      <input type="email" name="email" placeholder="Email (optional)" class="form__input form__input_full-size">
+    </div>
+    <div class="form__part">
+      <h3 class="form__subtitle">Job Details</h3>
+      <select name="jobType" class="form__input">
+        <option value="">Job type</option>
+        <option>Job 1</option>
+        <option>Job 2</option>
+      </select>
+      <select name="jobSource" class="form__input">
+        <option value="">Job source</option>
+        <option>Job source 1</option>
+        <option>Job source 2</option>
+      </select>
+      <textarea name="jobDescription" placeholder="Job description (optional)" class="form__input form__input_full-size"></textarea>
+    </div>
+    <div class="form__part">
+      <h3 class="form__subtitle">Service Location</h3>
+      <input type="text" name="address" placeholder="Address" class="form__input form__input_full-size">
+      <input type="text" name="city" placeholder="City" class="form__input form__input_full-size">
+      <input type="text" name="state" placeholder="State" class="form__input form__input_full-size">
+      <input type="text" name="zipCode" placeholder="Zip code" class="form__input">
+      <select name="area" class="form__input">
+        <option value="">Area</option>
+        <option>Area 1</option>
+        <option>Area 2</option>
+      </select>
+    </div>
+    <div class="form__part">
+      <h3 class="form__subtitle">Scheduled</h3>
+      <input type="date" title="Start date" name="startDate" class="form__input form__input_full-size">
+      <input type="time" title="Start time" name="startTime" class="form__input">
+      <input type="time" title="End time" name="endTime" class="form__input">
+      <select name="testSelect" class="form__input form__input_full-size">
+        <option value="">Test select</option>
+        <option>Test 1</option>
+        <option>Test 2</option>
+      </select>
+    </div>
+    <button type="submit" class="form__button form__button_submit">Create job</button>
+    <button type="button" class="form__button form__button_save">Save info</button>
+  </form>
 </body>
 </html>
