@@ -40,21 +40,33 @@ const successPage = (id) => (`
     event.preventDefault();
     const formData = new FormData(form);
 
-    const response = await fetch('./create', {
-      method: "POST",
-      credentials: 'include',
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        title: `JOB #${Math.round(Math.random() * 1000)}`,
-        ...formFields(Object.fromEntries(formData.entries())),
-      }),
-    });
+    const button = form.querySelector('.form__button_submit');
+    button.textContent = 'Please wait...';
 
-    const responseBody = await response.json();
-    localStorage.clear();
-    document.body.innerHTML = successPage(responseBody.data.id);
+    try {
+      const response = await fetch('./create', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          title: `JOB #${Math.round(Math.random() * 1000)}`,
+          ...formFields(Object.fromEntries(formData.entries())),
+        }),
+      });
+
+      const responseBody = await response.json();
+      localStorage.clear();
+      document.body.innerHTML = successPage(responseBody.data.id);
+    } catch (error) {
+      console.error(error);
+
+      button.textContent = 'Failed';
+      setTimeout(() => {
+        button.textContent = 'Create job';
+      }, 3000);
+    }
   };
 
   const handleSave = (event) => {
