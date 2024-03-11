@@ -20,12 +20,12 @@ const successPage = (id) => (`
 `);
 
 (async function() {
-  const sdk = await new AppExtensionsSDK().initialize({
-    size: {
-      height: 700,
-      width: 700,
-    }, 
-  });
+  // const sdk = await new AppExtensionsSDK().initialize({
+  //   size: {
+  //     height: 700,
+  //     width: 700,
+  //   }, 
+  // });
   const form = document.getElementById('jobForm');
 
   for (const name of Object.keys(localStorage)) {
@@ -52,8 +52,9 @@ const successPage = (id) => (`
       }),
     });
 
+    const responseBody = await response.json();
     localStorage.clear();
-    document.body.innerHTML = successPage(response.data.id);
+    document.body.innerHTML = successPage(responseBody.data.id);
   };
 
   const handleSave = (event) => {
