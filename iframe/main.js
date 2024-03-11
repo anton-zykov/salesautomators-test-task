@@ -16,7 +16,7 @@ const formFields = (data) => ({
 
 const successPage = (id) => (`
   <h3>Deal successfully created!</h3>
-  <a href="https://managerial-drawbridge.pipedrive.com/deal/${id}">Open deal</a>
+  <a href="https://managerial-drawbridge.pipedrive.com/deal/${id}" target="_blank">Open deal</a>
 `);
 
 (async function() {
